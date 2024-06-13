@@ -13,6 +13,7 @@ Ghost Messenger v3 is a secure messaging application that uses encryption to ens
 - **Public key and messages are separated from private keys for enhanced security**
 - **Usernames can change every message**
 - **Private key password of your choice and change when you like**
+- **Optional instant sms notifications, if you don't have a vonage account or dont want this feature just remove the input form in the home.html**
 
 ---
 
@@ -21,6 +22,8 @@ Ghost Messenger v3 is a secure messaging application that uses encryption to ens
 **Prerequisites**
 - Python 3.9+
 - PostgreSQL x2 (although one can be used with code modifications)
+- Optional: Vonage account with sms  api key
+
 
 **Step-by-Step Installation Guide**
 
@@ -57,7 +60,7 @@ Ghost Messenger v3 is a secure messaging application that uses encryption to ens
        id SERIAL PRIMARY KEY,
        username VARCHAR(255) NOT NULL UNIQUE,
        password_hash VARCHAR(60) NOT NULL,
-       is_verified BOOLEAN DEFAULT FALSE
+       is_verified BOOLEAN DEFAULT TRUE
    );
 
    CREATE TABLE IF NOT EXISTS messages (
@@ -106,13 +109,12 @@ Ghost Messenger v3 is a secure messaging application that uses encryption to ens
 **Registration and Login**
 
 1. **Register a new user** by providing a username and password.
-2. **Login with your credentials.** Note that only verified users can access the main features. 
-   - This is done by the person running the app by manually changing the verified status in the database table `users` or by running `verifyusers.py`.
+2. **Login with your credentials.**  
 
 **Sending a Message**
 
 1. **Compose a Message:**
-   - Fill in the sender (which can be any name), receiver (any name), message, and optionally attach a file. 
+   - Fill in the sender (which can be any name), receiver (any name), message, and optionally attach a file. 20MB MAXZ
    - Provide the private key password, which you and the receiver should already know.
 2. **Send:**
    - The message and file are encrypted and stored in the database.
