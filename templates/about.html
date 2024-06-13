@@ -1,1 +1,41 @@
-te
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/ab.css') }}">
+    <title>Ghost Messenger v3 - About</title>
+    
+</head>
+<body>
+    <h1>GhostIT Messenger v3</h1>
+    <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/ghost.png') }}" alt="Ghost Logo">
+        </div>
+    <div class="section">
+        <h3>Secure Messaging</h3>
+        <p>GhostIT Messenger v3 is designed with security and privacy at its core. Our secure messaging application uses advanced encryption techniques to ensure that your messages and files are protected from unauthorized access.</p>
+    </div>
+    <div class="section">
+        <h3>Encryption</h3>
+        <p>We employ both asymmetric (RSA) and symmetric (Fernet) encryption to safeguard your data during transmission and storage. Each message and file you send is encrypted with a unique key, ensuring that only the intended recipient can decrypt and read them.</p>
+    </div>
+    <div class="section">
+        <h3>No User Authentication</h3>
+        <p>GhostIT Messenger does not require user authentication when registering, ensuring that you can stay anonymous No emails or phone numbers just pick a username.</p>
+    </div>
+    <div class="section">
+        <h3>Privacy Features</h3>
+        <p>For enhanced privacy, messages and files are automatically deleted after they are decrypted and viewed. Public keys and messages are stored separately from private keys in different databases, and private keys are encrypted client-side with a user password. Usernames can be changed for each message, adding an additional layer of anonymity.</p>
+    </div>
+    <div class="section">
+        <h3>Data Deletion</h3>
+        <p>To ensure that no traces of your communications are left behind, all messages, files, and keys are deleted from our database once they have been decrypted and viewed. This approach minimizes the risk of data leaks and unauthorized access.</p>
+    </div>
+    <div class="section">
+        <h3>Security Commitment</h3>
+        <p>Our development team has gone to great lengths to ensure that GhostIT Messenger v3 is a secure and private messaging platform. We have implemented robust security measures and encryption protocols to protect your data, and we do not retain any logs or records of your communications.</p>
+    </div>
+</body>
+</html>
+

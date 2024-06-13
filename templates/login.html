@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/reg.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/ghost.png') }}" alt="Ghost Logo">
+        </div>
+        <h2>GhostIT Messenger</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.username.label }}
+                {{ form.username(size=32) }}
+                {% for error in form.username.errors %}
+                    <span class="alert">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.password.label }}
+                {{ form.password(type="password", size=32) }}
+                {% for error in form.password.errors %}
+                    <span class="alert">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+        <a href="{{ url_for('register') }}" class="register-link">Don't have an account? Register here.</a>
+        <p></p>
+        <a href="{{ url_for('about') }}" class="register-link">Learn More About GhostIT Messenger</a>
+        <p></p>
+        <a href="{{ url_for('static', filename='images/GhostIT.apk') }}" class="download-link">Download GhostIT Messenger Andriod App</a>
+    </div>
+    
+</body>
+</html>

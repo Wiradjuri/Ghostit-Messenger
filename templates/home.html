@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+    <title>GhostIT Messenger: Secure Encryption Messaging Service</title>
+    <meta name="description" content="GhostIT Messenger offers end-to-end RSA encrypted messaging for secure communication. Stay private with our no-log, secure service. Learn more.">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/ghost.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+   
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/ghost.png') }}" class="logo" alt="GhostIT Messenger Logo">
+    <h1>GhostIT Messenger v3</h1>
+    <form id="message-form" action="/" method="post" enctype="multipart/form-data" onsubmit="convertPhoneNumber()">
+        {{ message_form.hidden_tag() }}
+        <div>
+            {{ message_form.sender.label }} {{ message_form.sender(class_="form-control", placeholder="Your Name") }}
+        </div>
+        <div>
+            {{ message_form.receiver.label }} {{ message_form.receiver(class_="form-control", placeholder="Sending Message To...") }}
+        </div>
+        <div>
+            {{ message_form.message.label }} {{ message_form.message(class_="form-control", maxlength="130") }}
+            <small id="char-count">130 characters remaining</small>
+        </div>
+        <div>
+            <label for="file">File</label>
+            <input type="file" name="file" id="file" class="form-control">
+            <span id="file-name">No file chosen</span>
+        </div>
+        <div>
+            {{ message_form.private_key_password.label }} {{ message_form.private_key_password(class_="form-control", id="private-key-password") }}
+        </div>
+        <div>
+            <label for="phone_number">Phone Number (eg 0422555999)</label>
+            <input type="text" name="phone_number" id="phone_number" class="form-control" placeholder="Notify Them Instantly(optional)">
+        </div>
+        <div>
+            {{ message_form.submit(class_="btn btn-primary") }}
+        </div>
+        <div id="loading-container" style="display:none;">
+            <div id="loading-spinner"></div>
+            <div id="progress-bar">
+                <div id="progress"></div>
+            </div>
+        </div>
+        
+    </form>
+
+    <h2>Decrypt/Read Your Messages</h2>
+    <form id="decrypt-form" action="/" method="post">
+        {{ decrypt_form.hidden_tag() }}
+        <div>
+            {{ decrypt_form.receiver.label }} {{ decrypt_form.receiver(class_="form-control", placeholder="Your Name") }}
+        </div>
+        <div>
+            {{ decrypt_form.private_key_password.label }} {{ decrypt_form.private_key_password(class_="form-control", id="decrypt-password") }}
+        </div>
+        <div>
+            {{ decrypt_form.submit(class_="btn btn-primary") }}
+        </div>
+    </form>
+
+    <section id="decrypted-messages">
+        {% if decrypted_messages %}
+            <h3>You've Got Mail</h3>
+            {% for msg in decrypted_messages %}
+                <div class="message-content">
+                    <p><strong>From {{ msg.sender_username }} to {{ msg.receiver_username }}:</strong></p>
+                    {% if msg.message %}
+                        <p>{{ msg.message }}</p>
+                    {% endif %}
+                    {% if msg.file_filename %}
+                        <p><strong>File:</strong></p>
+                        <a href="{{ url_for('download_file', filename=msg.file_filename) }}" class="download-link">Download File (Add The File Extension To View)</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No decrypted messages to display.</p>
+        {% endif %}
+    </section>
+
+    <script nonce="{{ g.nonce }}">
+        document.addEventListener("DOMContentLoaded", function() {
+             // Scroll to decrypted messages if they exist
+             {% if decrypted_messages %}
+                document.getElementById('decrypted-messages').scrollIntoView();
+            {% endif %}
+            function showNotification(message, isError = false) {
+                var notification = document.createElement('div');
+                notification.className = 'notification-dropdown' + (isError ? ' error' : '');
+                notification.textContent = message;
+                document.body.appendChild(notification);
+        
+                notification.style.display = 'block';
+        
+                setTimeout(function() {
+                    notification.style.display = 'none';
+                    document.body.removeChild(notification);
+                }, 5000);
+            }
+        
+            // Display flash messages as notifications
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        var isError = "{{ category }}" === "error";
+                        showNotification("{{ message }}", isError);
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        
+            // Update character count for message input
+            const messageInput = document.querySelector('[name="message"]');
+            const charCount = document.getElementById('char-count');
+            messageInput.addEventListener('input', function() {
+                const remaining = 130 - messageInput.value.length;
+                charCount.textContent = `${remaining} characters remaining`;
+            });
+        
+            // Handle file input
+            const fileInput = document.getElementById('file');
+            const fileNameDisplay = document.getElementById('file-name');
+            fileInput.addEventListener('change', function(event) {
+                const fileName = event.target.files[0] ? event.target.files[0].name : 'No file chosen';
+                fileNameDisplay.textContent = fileName;
+            });
+        
+            // Password validation
+            function validatePassword(password) {
+                const minLength = 6;
+                const containsNumber = /\d/;
+                const containsUppercase = /[A-Z]/;
+                return password.length >= minLength && containsNumber.test(password) && containsUppercase.test(password);
+            }
+        
+            function showPasswordError(message) {
+                alert(message);
+            }
+        
+            // Handle message form submission
+            const messageForm = document.getElementById('message-form');
+            const loadingContainer = document.getElementById('loading-container');
+            const progressBar = document.getElementById('progress');
+
+            // Convert phone number before submitting the form
+            function convertPhoneNumber() {
+                const phoneNumberInput = document.getElementById('phone_number');
+                const phoneNumber = phoneNumberInput.value.trim();
+                if (phoneNumber.startsWith('04')) {
+                    phoneNumberInput.value = '61' + phoneNumber.substring(1);
+                }
+            }
+
+            messageForm.addEventListener('submit', function(e) {
+                const password = document.getElementById('private-key-password').value;
+                if (!validatePassword(password)) {
+                    e.preventDefault();
+                    showPasswordError("Password must be at least 6 characters long, contain one number and one uppercase letter.");
+                    return;
+                }
+                loadingContainer.style.display = 'block';
+        
+                // Simulate progress
+                let progress = 0;
+                const interval = setInterval(function() {
+                    progress += 10;
+                    progressBar.style.width = `${progress}%`;
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                    }
+                }, 500);
+            });
+        
+            // Scroll to bottom function
+            function scrollToBottom() {
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+        
+            // Handle decrypt form submission
+            const decryptForm = document.getElementById('decrypt-form');
+            const decryptLoadingContainer = document.getElementById('loading-container'); // Correct ID
+            const decryptProgressBar = document.getElementById('progress'); // Correct ID
+            const decryptSpinner = document.getElementById('loading-spinner'); // Correct ID
+        
+            decryptForm.addEventListener('submit', function(e) {
+                const password = document.getElementById('decrypt-password').value;
+                if (!validatePassword(password)) {
+                    e.preventDefault();
+                    showPasswordError("Password must be at least 6 characters long, contain one number, one uppercase letter, and no spaces.");
+                    return;
+                }
+                decryptLoadingContainer.style.display = 'block';
+        
+                // Simulate decryption progress
+                let progress = 0;
+                const interval = setInterval(function() {
+                    progress += 10;
+                    decryptProgressBar.style.width = `${progress}%`;
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        decryptSpinner.style.display = 'none';
+                        scrollToBottom(); // Scroll to the bottom after decryption is complete
+                    }
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
