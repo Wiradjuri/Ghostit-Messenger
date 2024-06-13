@@ -1,0 +1,42 @@
+
+#progress-bar {
+    width: 100%;
+    background-color: #f3f3f3;
+    display: none;
+}
+
+#progress {
+    width: 0;
+    height: 10px;
+    background-color: #0f0;
+}
+
+.btn {
+    background-color: #0f0;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #0c0;
+}
+
+.notification-dropdown {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    background-color: #0c0;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: none;
+}
+
+.notification-dropdown.error {
+    background-color: #e74c3c;
+}

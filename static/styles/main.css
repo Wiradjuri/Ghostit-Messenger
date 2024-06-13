@@ -1,1 +1,236 @@
+/* Progress Bar Container */
+#loading-container {
+    display: none; /* Initially hidden */
+    margin-top: 20px;
+    text-align: center;
+}
 
+/* Loading Spinner */
+#loading-spinner {
+    border: 13px solid #f3f3f3; /* Light grey */
+    border-top: 13px solid #0f0; /* Green */
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    animation: spin 3s linear infinite;
+    margin: 0 auto 10px;
+}
+
+/* Keyframes for Spinner Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Progress Bar */
+#progress-bar {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 20px;
+    margin: 0 auto;
+}
+
+/* Progress Indicator */
+#progress {
+    height: 100%;
+    width: 0;
+    background-color: #0f0; 
+    transition: width 1s ease; /* Increased the duration to 2 seconds */
+}
+
+/* Additional Styling for Form Elements */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #0f0; /* Green */
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: rgb(13, 97, 13); /* Darker green */
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #0f0; /* Green */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.notification-dropdown.error {
+    background-color: #f44336; /* Red */
+}
+
+/* Main body styles */
+body {
+    background-color: #000;
+    color: #0f0;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: 0 0 5px #0f0;
+    padding: 20px;
+}
+
+#image-button {
+    background-color: #0f0;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+#image-button:hover {
+    background-color: #0c0;
+}
+
+#file-name {
+    color: #0f0;
+    margin-left: 10px;
+}
+
+h2 {
+    border-bottom: 2px solid #0f0;
+    display: inline-block;
+    text-align: center;
+}
+
+input[type="file"] {
+    background-color: #0f0;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+input[type="file"]:hover {
+    background-color: #0c0;
+}
+
+form {
+    margin-top: 10px;
+    background-color: #000;
+    padding: 10px;
+    border: 1px solid #0f0;
+    box-shadow: 0 0 10px #0f0;
+    max-width: 100%;
+    align-self: center;
+    text-align: center;
+}
+
+input[type="text"], textarea, input[type="password"] {
+    background-color: white;
+    color: black;
+    border: none;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+input[type="submit"] {
+    background-color: #0f0;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0c0;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 500px) {
+    form {
+        padding: 20px;
+        max-width: 100%;
+    }
+    input[type="text"], textarea, input[type="submit"] {
+        padding: 15px;
+        font-size: 20px;
+    }
+    input[type="submit"] {
+        font-size: 20px;
+        padding: 20px;
+    }
+    h2 {
+        font-size: 15px;
+    }
+    .white-text {
+        font-size: 8px;
+    }
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0px;
+    max-width: 20%;
+    max-height: 90px;
+}
+
+.message-content {
+    font-size: 28px;
+    color: white;
+}
+
+.download-link {
+    color: white;
+    text-decoration: none;
+}
+
+.download-link:hover {
+    text-decoration: underline;
+}
+
+/* main.css */
+.white-link {
+    color: white;
+}
+
+.alert-success {
+    color: green;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.alert-error {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.white-text {
+    color: white;
+    font-size: smaller;
+}
