@@ -1,6 +1,6 @@
-### Ghost Messenger v3
+### GhostIT Messenger v3
 
-Ghost Messenger v3 is a secure messaging application that uses encryption to ensure the privacy and security of messages and files. The application employs both asymmetric and symmetric encryption to protect data during transmission and storage.
+GhosIT Messenger v3 is a secure messaging application that uses encryption to ensure the privacy and security of messages and files. The application employs both asymmetric and symmetric encryption to protect data during transmission and storage.
 
 ---
 
