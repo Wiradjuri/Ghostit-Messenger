@@ -114,7 +114,7 @@ GhosIT Messenger v3 is a secure messaging application that uses encryption to en
 **Sending a Message**
 
 1. **Compose a Message:**
-   - Fill in the sender (which can be any name), receiver (any name), message, and optionally attach a file. 20MB MAXZ
+   - Fill in the sender (which can be any name), receiver (any name), message, and optionally attach a file. 20mb max size
    - Provide the private key password, which you and the receiver should already know.
 2. **Send:**
    - The message and file are encrypted and stored in the database.
