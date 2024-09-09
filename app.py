@@ -8,10 +8,11 @@ from wtforms import StringField, SubmitField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Length
 from flask_wtf.file import FileField, FileAllowed
 from flask_wtf.csrf import CSRFProtect
-from Crypto.PublicKey import RSA
+from Cryptodome.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 from dotenv import load_dotenv
+load_dotenv()
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import psycopg2
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
